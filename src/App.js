@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Board from "./components/Board";
+import Toolbar from "./components/Toolbar";
+import Toolbox from "./components/Toolbox";
+import BoardProvider from "./store/BoardProvider";
+import ToolboxProvider from "./store/ToolboxProvider";
+import { useParams } from "react-router-dom";
+
+
+function HomePage() {
+  const { id } = useParams(); // Get the dynamic id
+  return (
+    <ToolboxProvider>
+      <div className="app-container">
+        <Toolbar />
+        <Board id={id}/>
+        <Toolbox />
+      </div>
+    </ToolboxProvider>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BoardProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/:id" element={<HomePage />} /> 
+        </Routes>
+      </Router>
+    </BoardProvider>
   );
 }
 
